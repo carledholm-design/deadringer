@@ -1,3 +1,6 @@
+import './styles/tokens.css'
+import './styles/app.css'
+import './styles/convert.css'
 import { TabBar } from './components/tab-bar.js'
 import { ConvertScreen } from './screens/convert.js'
 
