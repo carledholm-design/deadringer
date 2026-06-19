@@ -20,7 +20,6 @@ export function ConvertScreen() {
   el.className = 'screen'
 
   el.innerHTML = `
-    <link rel="stylesheet" href="/src/styles/convert.css" />
     <div class="convert-screen">
 
       <!-- Mode toggle -->
