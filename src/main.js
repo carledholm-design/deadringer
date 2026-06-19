@@ -65,8 +65,8 @@ function App() {
   }
 
   root.appendChild(header)
-  mountScreen(activeTab)
   root.appendChild(tabBar)
+  mountScreen(activeTab)
 }
 
 App()
