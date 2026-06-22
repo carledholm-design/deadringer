@@ -4,8 +4,8 @@ html, body {
   height: 100%;
   background: var(--base);
   color: var(--text);
-  font-family: var(--font-ui);
-  font-size: var(--text-base);
+  font-family: var(--font);
+  font-size: 15px;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }
@@ -20,31 +20,58 @@ html, body {
   overflow: hidden;
 }
 
-/* ── Screen container ── */
+/* Screen */
 .screen {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 80px;
 }
 
-/* ── Tab bar ── */
-.tab-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 72px;
-  background: rgba(17, 17, 20, 0.92);
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  background: rgba(17,17,20,0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  flex-shrink: 0;
+}
+
+.wordmark {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  background: linear-gradient(135deg, var(--violet-light), var(--violet));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-gear {
+  background: none;
+  border: none;
+  color: var(--text-3);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Tab bar */
+.tab-bar {
+  height: 72px;
+  background: var(--base-1);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: flex-start;
-  padding-top: var(--sp-2);
-  z-index: 100;
+  padding-top: 8px;
+  flex-shrink: 0;
 }
 
 .tab {
@@ -53,62 +80,21 @@ html, body {
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: var(--sp-2) 0;
+  padding: 6px 0;
   cursor: pointer;
-  transition: opacity var(--dur-fast) var(--ease-out);
   -webkit-tap-highlight-color: transparent;
+  background: none;
+  border: none;
 }
 
-.tab i {
-  font-size: 22px;
-  color: var(--text-3);
-  transition: color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-spring);
-}
-
-.tab span {
-  font-size: var(--text-xs);
+.tab .icon svg { transition: color var(--dur-base) var(--ease-out); }
+.tab .icon { color: var(--text-3); }
+.tab .tab-label {
+  font-size: 11px;
   font-weight: 500;
   color: var(--text-3);
-  letter-spacing: 0.01em;
-  transition: color var(--dur-base) var(--ease-out);
+  transition: color var(--dur-base);
 }
 
-.tab.active i   { color: var(--violet); transform: scale(1.1); }
-.tab.active span { color: var(--violet); }
-
-/* ── Wordmark header ── */
-.screen-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--sp-5) var(--sp-5) var(--sp-4);
-  position: sticky;
-  top: 0;
-  background: rgba(17,17,20,0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 50;
-  border-bottom: 1px solid transparent;
-}
-
-.wordmark {
-  font-size: var(--text-xl);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--violet-light), var(--violet));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ── Shared utility ── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
+.tab.active .icon { color: var(--violet); }
+.tab.active .tab-label { color: var(--violet); }

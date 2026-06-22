@@ -1,75 +1,55 @@
 import './styles/tokens.css'
 import './styles/app.css'
 import './styles/convert.css'
+import { iconHTML } from './components/icons.js'
 import { TabBar } from './components/tab-bar.js'
 import { ConvertScreen } from './screens/convert.js'
 
-function placeholderScreen(label, icon) {
+function placeholder(label) {
   const el = document.createElement('div')
   el.className = 'screen'
-  el.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;opacity:0.3;'
-  el.innerHTML = `<i class="ph ${icon}" style="font-size:48px;color:var(--violet)"></i>
-                  <p style="font-size:17px;font-weight:600;color:var(--text-2)">${label}</p>
+  el.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;'
+  el.innerHTML = `<p style="font-size:17px;font-weight:600;color:var(--text-3)">${label}</p>
                   <p style="font-size:13px;color:var(--text-3)">Coming soon</p>`
   return el
 }
 
 const SCREENS = {
-  home:    () => placeholderScreen('Home', 'ph-house'),
+  home:    () => placeholder('Home'),
   convert: () => ConvertScreen(),
-  shows:   () => placeholderScreen('Shows', 'ph-microphone-stage'),
-  party:   () => placeholderScreen('Party', 'ph-users-three'),
-  me:      () => placeholderScreen('Me', 'ph-user-circle'),
+  shows:   () => placeholder('Shows'),
+  party:   () => placeholder('Party'),
+  me:      () => placeholder('Me'),
 }
 
-const SCREEN_TITLES = {
-  home:    'deadringer',
-  convert: 'deadringer',
-  shows:   'Shows',
-  party:   'Party',
-  me:      'Me',
-}
+let activeTab = 'convert'
+let screenEl = null
 
-function App() {
-  let activeTab = 'convert'
-  let screenEl = null
+const root = document.getElementById('app')
 
-  const root = document.getElementById('app')
+// Header
+const header = document.createElement('header')
+header.className = 'app-header'
+header.innerHTML = `
+  <span class="wordmark">deadringer</span>
+  <button class="header-gear" aria-label="Settings">${iconHTML('gear', 22)}</button>
+`
 
-  // Header
-  const header = document.createElement('header')
-  header.className = 'screen-header'
-  header.innerHTML = `
-    <span class="wordmark" id="header-wordmark">deadringer</span>
-    <button style="background:none;border:none;color:var(--text-3);cursor:pointer;padding:4px;" aria-label="Settings">
-      <i class="ph ph-gear" style="font-size:22px;"></i>
-    </button>
-  `
-
-  // Screen mount
-  const screenMount = document.createElement('div')
-  screenMount.style.cssText = 'display:contents'
-
-  // Tab bar
-  const tabBar = TabBar({
-    activeTab,
-    onTab(tab) {
-      activeTab = tab
-      mountScreen(tab)
-      const wordmark = header.querySelector('#header-wordmark')
-      wordmark.textContent = SCREEN_TITLES[tab] || tab
-    }
-  })
-
-  function mountScreen(tab) {
-    if (screenEl) screenEl.remove()
-    screenEl = SCREENS[tab]()
-    root.insertBefore(screenEl, tabBar)
+// Tab bar
+const tabBar = TabBar({
+  active: activeTab,
+  onTab(id) {
+    activeTab = id
+    mountScreen(id)
   }
+})
 
-  root.appendChild(header)
-  root.appendChild(tabBar)
-  mountScreen(activeTab)
+function mountScreen(id) {
+  if (screenEl) screenEl.remove()
+  screenEl = SCREENS[id]()
+  root.insertBefore(screenEl, tabBar)
 }
 
-App()
+root.appendChild(header)
+root.appendChild(tabBar)
+mountScreen(activeTab)
